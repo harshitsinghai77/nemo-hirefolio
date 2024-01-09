@@ -1,0 +1,17 @@
+body {
+  font-family: sans-serif;
+}
+
+/* Primary red button */
+.button-red {
+    background-color: #ee5f5b; /* Skeleton's primary red */
+    border: 1px solid #c43c35;
+    color: #fff;
+    
+}
+  
+/* Hover effect (optional) */
+.button-red:hover {
+    background-color: #e0544f; /* Slightly darker red */
+    color: #FFF;
+}
