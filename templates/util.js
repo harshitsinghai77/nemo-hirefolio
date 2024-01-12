@@ -14,10 +14,36 @@
 // Notes: Any additional notes or details about the job or application process.
 // Next Steps: Actionable steps you'll take next (e.g., follow up, research company).
 
-async function getSampleData() {
-  const response = await fetch("/get-job");
-  const responseFromAPI = await response.json();
+async function makeRequest(url, method = "GET", body = null) {
+  const token = localStorage.getItem("TOKEN"); // Retrieve token from storage
 
+  try {
+    const response = await fetch(url, {
+      method: method,
+      headers: {
+        "X-Auth-Token": token, // Attach authentication header
+        "Content-Type": "application/json", // Set content type for POST requests
+      },
+      body: body ? JSON.stringify(body) : null, // Send body for POST requests
+    });
+
+    if (!response.ok) {
+      if (response.status === 404) {
+        window.location.href = "/login"; // Redirect to /login
+      }
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+
+    const data = await response.json();
+    return data; // Return parsed JSON data
+  } catch (error) {
+    console.error("Request failed:", error);
+    throw error; // Rethrow error for further handling
+  }
+}
+
+async function getSampleData() {
+  const responseFromAPI = await makeRequest("/get-job");
   const columns = responseFromAPI["columns"];
   const dataFromAPI = responseFromAPI["data"];
 
@@ -70,7 +96,7 @@ function getEditor(colIndex, rowIndex, value, parent, column, row, data) {
         datatable.freeze();
       }
 
-      makePostRequest("/update-job", updatedRow)
+      makeRequest("/update-job", "POST", updatedRow)
         .then(async (responseData) => {
           // newRow True means that a new is added, add the key to the new row and update the row.
           if (responseData.new_key && newRow) {
@@ -93,43 +119,6 @@ function getEditor(colIndex, rowIndex, value, parent, column, row, data) {
       return $input.value;
     },
   };
-}
-
-async function makePostRequest(url, data) {
-  try {
-    const response = await fetch(url, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(data),
-    });
-
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
-
-    const responseData = await response.json(); // Assuming JSON response
-    return responseData;
-  } catch (error) {
-    console.error("Error:", error);
-  }
-}
-
-async function deleteJob(url) {
-  try {
-    const response = await fetch(url, {
-      method: "DELETE",
-    });
-
-    if (!response.ok) {
-      throw new Error(`DELETE request failed with status ${response.status}`);
-    }
-
-    await response.json(); // Assuming JSON response
-  } catch (error) {
-    console.error("Error deleting job:", error);
-  }
 }
 
 async function refreshTable() {
@@ -157,8 +146,10 @@ removeRowButton.addEventListener("click", async () => {
 
   // Send rowsToDelete to the DELETE API
   datatable.freeze();
-  rowDeleteKeys.forEach(
-    async (rowId) => await deleteJob(`/delete-job/${rowId}`)
+  await Promise.all(
+    rowDeleteKeys.map(
+      async (rowId) => await makeRequest(`/delete-job/${rowId}`, "DELETE")
+    )
   );
 
   // Untick selectedRows

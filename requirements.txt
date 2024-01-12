@@ -3,3 +3,6 @@ uvicorn
 jinja2
 deta
 aiohttp
+bcrypt
+pyjwt
+python-dotenv

@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+  {% include "header.html" %}
+  <style>
+    body {
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    form {
+        margin: 40px auto; /* Center the form with some spacing */
+        width: 20%; /* Adjust as needed */
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f8f8f8;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block; /* Ensure labels are displayed on separate lines */
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-sizing: border-box; /* Include padding in width calculations */
+    }
+
+    .note {
+      margin-top: 20px;
+      font-style: italic;
+    }
+
+    .error-message {
+        color: #e9858b; /* Softer, less intense red */
+        font-weight: bold;
+        font-size: 14px;
+        line-height: 1.5;
+        margin-bottom: 10px;
+    }
+
+    a {
+        text-decoration: none;  /* Removes underlining */
+        color: inherit;         /* Inherits color from parent element */
+    }
+    
+  </style>
+</head>
+<body>
+  <h2>Login</h2>
+  <form id="login-form">
+    <div class="form-group">
+        <!-- <label for="firstName">First Name:</label> -->
+        <input class="u-full-width" type="text" id="usernameOrEmail" placeholder="Username or Email" required>
+        <input class="u-full-width" type="password" id="password" placeholder="Password" required>
+        <span id="emailError" class="error-message"></span>
+    </div>
+    <input class="button-primary" type="submit" value="Login">
+  </form>
+  <p class="note">Don't be a "no-folio" when it comes to your job search. Login and get organized!</p>
+  <a href="/signup"><h3>No account yet? No worries! Join us in just a few clicks.</h3></a>
+</body>
+<script src="static/login.js"></script>
+</html>

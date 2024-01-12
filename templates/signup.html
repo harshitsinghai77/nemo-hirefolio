@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  {% include "header.html" %}
+  <style>
+    body {
+      text-align: center;
+      margin-top: 50px;
+    }
+
+    form {
+        margin: 40px auto; /* Center the form with some spacing */
+        width: 20%; /* Adjust as needed */
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f8f8f8;
+    }
+
+    .form-group {
+        margin-bottom: 15px;
+    }
+
+    label {
+        display: block; /* Ensure labels are displayed on separate lines */
+        margin-bottom: 5px;
+        font-weight: bold;
+    }
+
+    input[type="text"],
+    input[type="email"],
+    input[type="password"],
+    textarea {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 3px;
+        box-sizing: border-box; /* Include padding in width calculations */
+    }
+
+    .note {
+      margin-top: 20px;
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <h2>Create Your Account</h2>
+  <form id="signup-form">
+    <div class="form-group">
+        <!-- <label for="firstName">First Name:</label> -->
+        <input class="u-full-width" type="text" id="firstName" placeholder="Enter your first name" required>
+        <input class="u-full-width" type="text" id="lastName" placeholder="Enter your last name" required>
+        <input class="u-full-width" type="text" id="username" placeholder="Enter your username" required>
+        <input class="u-full-width" type="email" id="email" placeholder="Enter your email" required>
+        <span id="emailError" class="error-message"></span>
+        <input class="u-full-width" type="password" id="password" placeholder="Enter your password" required>
+    </div>
+    <input class="button-primary" type="submit" value="Submit">
+  </form>
+  <p class="note">Note: We don't have reset password functionality yet, so please remember your username and password.</p>
+</body>
+<script src="static/signup.js"></script>
+</html>
