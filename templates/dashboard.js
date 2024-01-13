@@ -122,6 +122,20 @@ function getEditor(colIndex, rowIndex, value, parent, column, row, data) {
   };
 }
 
+function showSpinner() {
+  document.getElementById("loading-spinner").style.display = "block";
+  document
+    .querySelectorAll(".data-dependent-button")
+    .forEach((button) => (button.style.display = "none"));
+}
+
+function hideSpinner() {
+  document.getElementById("loading-spinner").style.display = "none";
+  document
+    .querySelectorAll(".data-dependent-button")
+    .forEach((button) => (button.style.display = "inline-block"));
+}
+
 async function refreshTable() {
   const { columns, dataFromAPI } = await getSampleData();
   datatable.refresh(dataFromAPI, columns);

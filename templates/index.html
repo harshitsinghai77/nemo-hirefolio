@@ -2,14 +2,28 @@
 <html>
   {% include "header.html" %}
   <body>
+    <div id="loading-spinner"></div>
     <div id="datatable"></div>
 
-    <div style="margin-top: 30px; text-align: center">
-      <button class="button button-primary" id="add-new-row">Add Row</button>
-      <button class="button button-red" id="remove-selected-row">
+    <div style="margin-top: 20px; text-align: center">
+      <button
+        class="button button-primary data-dependent-button"
+        id="add-new-row"
+      >
+        Add Row
+      </button>
+      <button
+        class="button button-red data-dependent-button"
+        id="remove-selected-row"
+      >
         Delete Row
       </button>
-      <button class="button button-secondar" id="logout-button">Logout</button>
+      <button
+        class="button button-secondar data-dependent-button"
+        id="logout-button"
+      >
+        Logout
+      </button>
     </div>
 
     <script src="https://unpkg.com/sortablejs@1.7.0/Sortable.min.js"></script>
@@ -18,17 +32,18 @@
     <script src="static/dashboard.js"></script>
     <script>
       let datatable; // Declare outside
-
       (async () => {
         try {
+          showSpinner();
           const { columns, dataFromAPI } = await getSampleData();
           datatable = new DataTable("#datatable", {
-            columns,
+            columns: columns,
             data: dataFromAPI,
             checkboxColumn: true,
             inlineFilters: true,
             getEditor: getEditor,
           });
+          hideSpinner();
         } catch (error) {
           // Handle errors gracefully, e.g., display an error message to the user
           console.error("Error fetching data:", error);
