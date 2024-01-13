@@ -61,16 +61,17 @@ async def root(request: Request):
 
 
 @app.post("/update-job")
-async def receive_data(request: Request):
+async def receive_data(request: Request, user=Depends(current_user)):
     try:
         job_details = await request.json()
         filtered_rows = (
             row for row in job_details if row["column"]["id"] in JOBS_SCHEMA_SET
         )
         filtered_data = {row["column"]["id"]: row["content"] for row in filtered_rows}
-  
+        filtered_data['user_email'] = user['email']
+
         if not filtered_data.get("key"):
-            # if key doesn't exists, that a new row is added to the data
+            # if key doesn't exists, that means a new row is added
             del filtered_data["key"]
 
         new_key = await db.put(filtered_data)
@@ -99,7 +100,7 @@ async def get_all_jobs(user=Depends(current_user)):
 
 
 @app.delete("/delete-job/{key}")
-async def delete_job(key: str = None):
+async def delete_job(key: str = None, user=Depends(current_user)):
     try:
         if not key:
             return {"message": "No key provided"}
