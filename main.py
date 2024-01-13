@@ -7,7 +7,7 @@ from fastapi.staticfiles import StaticFiles
 from fastapi.param_functions import Depends
 
 from constants import JOBS_SCHEMA, JOBS_SCHEMA_SET
-from utils.helpers import hash_password, create_access_token, get_current_user, authenticate_user
+from utils.helpers import hash_password, create_access_token, get_current_user, authenticate_user, get_dummy_data
 
 templates = Jinja2Templates(directory="templates")  # Specify templates directory
 
@@ -141,7 +141,14 @@ async def signup_user(request: Request):
             return {"message": "Email already exists", "status": False}
         
         user_details['password'] = hash_password(user_details['password'])
+
+        # Add new user
         new_user = await db_user.put(user_details, key=user_details['email'])
+        
+        # Add dummy data for the new user.
+        dummy_data = get_dummy_data(user_details['email'])
+        await db.put_many(dummy_data)
+        
         access_token = create_access_token(new_user)
         return {"message": "user successfully created", "status": True, 'access_token': access_token}
     except Exception as e:
