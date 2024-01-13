@@ -35,6 +35,10 @@ signupForm.addEventListener("submit", (event) => {
       if (response.status === true && response.access_token) {
         localStorage.setItem("TOKEN", response.access_token);
         window.location.href = "/"; // Redirect to dashboard
+      } else {
+        // Error handling
+        emailError.textContent = response.message;
+        emailError.style.display = "block"; // Display the error message
       }
     })
     .catch((error) => {

@@ -3,16 +3,19 @@
   {% include "header.html" %}
   <body>
     <div id="datatable"></div>
-    <button class="button button-primary" id="add-new-row">Add Row</button>
-    <button class="button button-red" id="remove-selected-row">Delete</button>
-    <button class="button button-primary" id="my-google-sign-in-button">
-      Signin with Google
-    </button>
+
+    <div style="margin-top: 30px; text-align: center">
+      <button class="button button-primary" id="add-new-row">Add Row</button>
+      <button class="button button-red" id="remove-selected-row">
+        Delete Row
+      </button>
+      <button class="button button-secondar" id="logout-button">Logout</button>
+    </div>
 
     <script src="https://unpkg.com/sortablejs@1.7.0/Sortable.min.js"></script>
     <script src="https://unpkg.com/clusterize.js@0.18.0/clusterize.min.js"></script>
     <script src="https://unpkg.com/frappe-datatable@1.17.4/dist/frappe-datatable.min.js"></script>
-    <script src="static/util.js"></script>
+    <script src="static/dashboard.js"></script>
     <script>
       let datatable; // Declare outside
 

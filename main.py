@@ -82,14 +82,14 @@ async def receive_data(request: Request):
 @app.get("/get-job")
 async def get_all_jobs(user=Depends(current_user)):
     try:
-        res = await db.fetch({})
+        res = await db.fetch({'user_email': user['email']})
         all_jobs = res.items
 
         # fetch until last is 'None'
         while res.last:
             res = db.fetch(last=res.last)
             all_jobs += res.items
-
+            
         all_jobs_data = (
             (job.get(schema["id"]) for schema in JOBS_SCHEMA) for job in all_jobs
         )
@@ -137,7 +137,7 @@ async def signup_user(request: Request):
         user_details = await request.json()
         user_exists = await check_if_user_exists(user_details.get('email'), user_details.get('username'))
         if user_exists:
-            return {"message": "user already exists", "status": False}
+            return {"message": "Email already exists", "status": False}
         
         user_details['password'] = hash_password(user_details['password'])
         new_user = await db_user.put(user_details, key=user_details['email'])
@@ -151,7 +151,7 @@ async def login_user(request: Request):
     """
     Validates user information, including:
 
-    - usernameOrEmail (str): The user's email address.
+    - usernameOrEmail (str): The user's username or email address.
     - password (str): The user's password.
     """
     try:

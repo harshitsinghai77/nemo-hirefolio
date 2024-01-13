@@ -41,6 +41,20 @@
       margin-top: 20px;
       font-style: italic;
     }
+
+    .error-message {
+        color: #e9858b; /* Softer, less intense red */
+        font-weight: bold;
+        font-size: 20px;
+        line-height: 1.5;
+        margin-bottom: 10px;
+    }
+
+    a {
+        text-decoration: none;  /* Removes underlining */
+        color: inherit;         /* Inherits color from parent element */
+    }
+
   </style>
 </head>
 <body>
@@ -52,12 +66,13 @@
         <input class="u-full-width" type="text" id="lastName" placeholder="Enter your last name" required>
         <input class="u-full-width" type="text" id="username" placeholder="Enter your username" required>
         <input class="u-full-width" type="email" id="email" placeholder="Enter your email" required>
-        <span id="emailError" class="error-message"></span>
         <input class="u-full-width" type="password" id="password" placeholder="Enter your password" required>
+        <span id="emailError" class="error-message"></span>
     </div>
     <input class="button-primary" type="submit" value="Submit">
   </form>
   <p class="note">Note: We don't have reset password functionality yet, so please remember your username and password.</p>
+  <a href="/login"><h3>Already have an account? Login here.</h3></a>
 </body>
 <script src="static/signup.js"></script>
 </html>

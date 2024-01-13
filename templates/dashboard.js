@@ -29,6 +29,7 @@ async function makeRequest(url, method = "GET", body = null) {
 
     if (!response.ok) {
       if (response.status === 404) {
+        localStorage.removeItem("TOKEN");
         window.location.href = "/login"; // Redirect to /login
       }
       throw new Error(`HTTP error! status: ${response.status}`);
@@ -129,6 +130,7 @@ async function refreshTable() {
 // Get references to the button and DataTable container
 const addRowButton = document.getElementById("add-new-row");
 const removeRowButton = document.getElementById("remove-selected-row");
+const logoutButton = document.getElementById("logout-button");
 
 // Add event listener to the button
 addRowButton.addEventListener("click", () => {
@@ -158,4 +160,9 @@ removeRowButton.addEventListener("click", async () => {
   );
   await refreshTable();
   datatable.unfreeze();
+});
+
+logoutButton.addEventListener("click", () => {
+  localStorage.removeItem("TOKEN");
+  window.location.href = "/"; // Redirect to dashboard
 });
